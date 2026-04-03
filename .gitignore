@@ -1,0 +1,15 @@
+# Bỏ qua tất cả các file đã biên dịch của Java
+*.class
+
+# Bỏ qua thư mục bin (nếu bạn dùng Eclipse/VS Code để build)
+bin/
+
+# Bỏ qua các file cấu hình của IDE
+.settings/
+.project
+.classpath
+.factorypath
+
+# Bỏ qua các file tạm của hệ điều hành
+Thumbs.db
+.DS_Store
