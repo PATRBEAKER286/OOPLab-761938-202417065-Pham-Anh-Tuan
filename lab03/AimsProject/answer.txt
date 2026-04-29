@@ -1,0 +1,48 @@
+Question 1: What are the advantages of Polymorphism? 
+Answer: The main advantages of Polymorphism include:
+
+Code Reusability and Extensibility: We can write code that works on the superclass level (like Media) without needing to know the specific subclasses (Book, DVD, CD). New subclasses can be added later without changing the existing logic.
+
+Maintainability: It simplifies the code. Instead of writing multiple if-else statements or method overloading to handle different object types, we just call a single method, and the system dynamically resolves it.
+
+Flexibility: A single interface can represent multiple different implementations.
+
+
+Question 2: How is Inheritance useful to achieve Polymorphism in Java? 
+Answer: Inheritance forms the foundation for Polymorphism. Inheritance establishes an "IS-A" relationship, which allows a superclass reference variable (e.g., Media m) to point to a subclass object (e.g., new Book()). Without inheritance, we wouldn't have method overriding (where a subclass provides a specific implementation of a method defined in its superclass), which is the core mechanism of runtime polymorphism (dynamic method dispatch).
+
+
+Question 3: What are the differences between Polymorphism and Inheritance in Java? 
+Answer: - Inheritance is a structural concept. It is about creating a hierarchy where a child class acquires properties and behaviors from a parent class (Code Reusability).
+
+Polymorphism is a behavioral concept. It is about a single action acting differently depending on the actual type of the object performing it (One interface, multiple forms).
+In short: Inheritance provides the structure that makes Polymorphism (the behavior) possible.
+
+
+PART 2: POLYMORPHISM WITH TOSTRING() METHOD 
+
+Question: Iterate through the list and print out the information of the media by using toString() method. Observe what happens and explain in detail. 
+Answer: When iterating through the List<Media> and calling m.toString(), the program correctly prints the specific formatted string for each type (Book, CD, DVD), not just a generic Media string.
+Explanation: This happens due to Runtime Polymorphism (Dynamic Method Dispatch). Although the reference variable m is of type Media, at runtime, the Java Virtual Machine (JVM) looks at the actual object type in the memory (whether it's a Book, CD, or DVD). Because these subclasses have @Override toString(), the JVM dynamically binds and calls the overridden method of that specific subclass.
+
+
+PART 3: COMPARABLE INTERFACE VS COMPARATOR 
+
+
+Suppose we are taking this Comparable interface approach. 
+
+
+Question 1: What class should implement the Comparable interface? 
+Answer: The Media class should implement the Comparable<Media> interface, so that all its subclasses (Book, CompactDisc, DigitalVideoDisc) inherit this comparable behavior.
+
+
+Question 2: In those classes, how should you implement the compareTo() method to reflect the ordering that we want? 
+Answer: We would override the public int compareTo(Media other) method inside the Media class. The implementation would first compare this.title with other.getTitle(). If the titles are different, it returns the result of the string comparison. If the titles are identical, it then compares this.cost with other.getCost().
+
+
+Question 3: Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach? 
+Answer: No. The Comparable interface only allows defining a single "natural ordering" for a class because a class can only override the compareTo() method once. To support multiple different sorting rules, we MUST use the Comparator interface instead.
+
+Question 4: Suppose the DVDs have a different ordering rule from the other media types, that is by title, then decreasing length, then cost. How would you modify your code to allow this? 
+Answer: To handle this specific rule for DVDs while mixing them with other media types, we should write a custom Comparator<Media>. Inside the compare(Media m1, Media m2) method, we would use the instanceof operator.
+If both m1 and m2 are instances of DigitalVideoDisc, we cast them to DigitalVideoDisc, compare their titles, then compare their length in reverse order, and finally compare their cost. If they are not both DVDs, we fall back to the standard sorting rules.
